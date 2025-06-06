@@ -1,7 +1,7 @@
 import { Base3DScene } from "../../Base3DScene";
 import { Ellipsoid3D } from "../../shapes/3D/Ellipsoid3D";
 import { EllipticParaboloid3D } from "../../shapes/3D/EllipticParaboloid3D";
-import { GeometryType3D } from "../../../Geometries/GeoTypes";
+import { GeometryType3D } from "non-gon";
 
 export class EllipsoidEllipticParaboloidPQ extends Base3DScene {
   private ellipsoid: Ellipsoid3D;

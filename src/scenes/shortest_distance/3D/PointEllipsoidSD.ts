@@ -1,7 +1,7 @@
 import { Base3DScene } from "../../Base3DScene";
 import { Point3D } from "../../shapes/3D/Point3D";
 import { Ellipsoid3D } from "../../shapes/3D/Ellipsoid3D";
-import { GeometryType2D, GeometryType3D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D, GeometryType3D } from "non-gon";
 
 export class PointEllipsoidSD extends Base3DScene {
   private point: Point3D;

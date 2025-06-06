@@ -1,7 +1,7 @@
 import { Point2D } from "./shapes/2D/Point2D";
 import { Ellipse2D } from "./shapes/2D/Ellipse2D";
 import { PointEllipseSD } from "./shortest_distance/2D/PointEllipseSD";
-import { Vector2, Vector3 } from "../Calc/Util/Utils";
+import { Vector2, Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener("DOMContentLoaded", () => {

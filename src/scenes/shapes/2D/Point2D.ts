@@ -1,6 +1,6 @@
 import { Base2DScene } from '../../Base2DScene';
-import { GeometryType2D } from "../../../Geometries/GeoTypes";
-import { Vector2 } from "../../../Calc/Util/Utils";
+import { GeometryType2D } from "non-gon";
+import { Vector2 } from "non-gon";
 
 export class Point2D extends Base2DScene {
   private center: Vector2;

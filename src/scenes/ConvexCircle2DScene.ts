@@ -1,5 +1,5 @@
 import { ConvexCircle2D } from "./shapes/2D/ConvexCircle2D";
-import { Vector2, Vector3 } from "../Calc/Util/Utils";
+import { Vector2, Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener('DOMContentLoaded', () => {

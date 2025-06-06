@@ -1,5 +1,5 @@
 import { Hyperboloid3D } from "./shapes/3D/Hyperboloid3D";
-import { Vector3 } from "../Calc/Util/Utils";
+import { Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener("DOMContentLoaded", () => {

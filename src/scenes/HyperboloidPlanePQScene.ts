@@ -1,7 +1,7 @@
 import { Hyperboloid3D } from "./shapes/3D/Hyperboloid3D";
 import { Plane3D } from "./shapes/3D/Plane3D";
 import { HyperboloidPlanePQ } from "./proximity_queries/3D/HyperboloidPlanePQ";
-import { Vector3 } from "../Calc/Util/Utils";
+import { Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener("DOMContentLoaded", () => {

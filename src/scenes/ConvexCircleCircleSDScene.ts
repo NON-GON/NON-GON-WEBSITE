@@ -1,6 +1,6 @@
 import { ConvexCircle2D } from "./shapes/2D/ConvexCircle2D";
 import { Circle2D } from "./shapes/2D/Circle2D";
-import { Vector2, Vector3 } from "../Calc/Util/Utils";
+import { Vector2, Vector3 } from "non-gon";
 import { Colors } from "../colors";
 import { ConvexCircleCircleSD } from "./shortest_distance/2D/ConvexCircleCircleSD";
 

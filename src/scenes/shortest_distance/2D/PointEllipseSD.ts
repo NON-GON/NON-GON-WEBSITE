@@ -1,7 +1,7 @@
 import { Base2DScene } from "../../Base2DScene";
 import { Point2D } from "../../shapes/2D/Point2D";
 import { Ellipse2D } from "../../shapes/2D/Ellipse2D";
-import { GeometryType2D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D } from "non-gon";
 
 export class PointEllipseSD extends Base2DScene {
   private point: Point2D;

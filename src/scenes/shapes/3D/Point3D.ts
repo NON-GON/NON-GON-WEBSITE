@@ -1,6 +1,6 @@
 import { Base3DScene } from '../../Base3DScene';
-import { GeometryType2D } from "../../../Geometries/GeoTypes";
-import { Vector3 } from "../../../Calc/Util/Utils";
+import { GeometryType2D } from "non-gon";
+import { Vector3 } from "non-gon";
 
 export class Point3D extends Base3DScene {
   private center: Vector3;

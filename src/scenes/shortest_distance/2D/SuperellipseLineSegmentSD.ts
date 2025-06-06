@@ -1,7 +1,7 @@
 import { Base2DScene } from "../../Base2DScene";
 import { Superellipse2D } from "../../shapes/2D/Superellipse2D";
 import { LineSegment2D } from "../../shapes/2D/LineSegment2D";
-import { GeometryType2D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D } from "non-gon";
 
 export class SuperellipseLineSegmentSD extends Base2DScene {
   private superellipse: Superellipse2D;

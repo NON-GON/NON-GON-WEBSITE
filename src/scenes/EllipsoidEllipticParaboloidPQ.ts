@@ -1,7 +1,7 @@
 import { Ellipsoid3D } from "./shapes/3D/Ellipsoid3D";
 import { EllipticParaboloid3D } from "./shapes/3D/EllipticParaboloid3D";
 import { EllipsoidEllipticParaboloidPQ } from "./proximity_queries/3D/EllipsoidEllipticParaboloidPQ";
-import { Vector3 } from "../Calc/Util/Utils";
+import { Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener("DOMContentLoaded", () => {

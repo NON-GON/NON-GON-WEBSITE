@@ -1,6 +1,6 @@
 import { Base3DScene } from "../../Base3DScene";
 import { Cylinder3D } from "../../shapes/3D/Cylinder3D";
-import { GeometryType3D } from "../../../Geometries/GeoTypes";
+import { GeometryType3D } from "non-gon";
 
 export class CylinderCylinderPQ extends Base3DScene {
   private cylinder1: Cylinder3D;

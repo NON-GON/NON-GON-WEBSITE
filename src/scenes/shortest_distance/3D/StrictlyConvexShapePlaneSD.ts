@@ -1,7 +1,7 @@
 import { Base3DScene } from "../../Base3DScene";
 import { StrictlyConvexShape3D } from "../../shapes/3D/StrictlyConvexShape3D";
 import { Plane3D } from "../../shapes/3D/Plane3D";
-import { GeometryType2D, GeometryType3D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D, GeometryType3D } from "non-gon";
 
 export class StrictlyConvexShapePlaneSD extends Base3DScene {
   private strictlyConvexShape: StrictlyConvexShape3D;

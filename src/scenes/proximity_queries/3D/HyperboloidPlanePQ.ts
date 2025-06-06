@@ -1,7 +1,7 @@
 import { Base3DScene } from "../../Base3DScene";
 import { Hyperboloid3D } from "../../shapes/3D/Hyperboloid3D";
 import { Plane3D } from "../../shapes/3D/Plane3D";
-import { GeometryType2D, GeometryType3D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D, GeometryType3D } from "non-gon";
 
 export class HyperboloidPlanePQ extends Base3DScene {
   private hyperboloid: Hyperboloid3D;

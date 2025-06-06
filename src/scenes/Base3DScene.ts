@@ -1,13 +1,13 @@
 import * as THREE from "three";
 import { Colors } from "../colors";
-import { GeometryManager } from "../Geometries/GeometryManager";
+import { GeometryManager } from "non-gon";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { Vector2, Vector3 } from "../Calc/Util/Utils";
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
+import { Vector2, Vector3 } from "non-gon";
+import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 
 export abstract class Base3DScene {
-  protected geometryManager = new GeometryManager();
+  protected geometryManager = GeometryManager.getInstance();
   protected renderer: THREE.WebGLRenderer;
   protected scene: THREE.Scene;
   protected camera: THREE.PerspectiveCamera;
@@ -82,15 +82,15 @@ export abstract class Base3DScene {
 
     const exporter = new GLTFExporter();
 
-    window.addEventListener('keydown', (event) => {
+    window.addEventListener("keydown", (event) => {
       // Use 'e' key (case-insensitive) to trigger export
-      if (event.key.toLowerCase() !== 'e') return;
+      if (event.key.toLowerCase() !== "e") return;
       event.preventDefault();
 
       // Options for high-quality .glb
       const options = {
-        binary: true,         // Export as .glb
-        embedImages: true,    // Embed textures into the .glb
+        binary: true, // Export as .glb
+        embedImages: true, // Embed textures into the .glb
         maxTextureSize: Infinity, // Preserve full-resolution textures
         // You can add more options here: trs, onlyVisible, truncateDrawRange, etc.
       };
@@ -100,23 +100,23 @@ export abstract class Base3DScene {
         (result) => {
           // If binary is true, result is an ArrayBuffer representing the .glb
           if (result instanceof ArrayBuffer) {
-            this.saveArrayBuffer(result, 'scene_export.glb');
-            console.log('✅ Export successful: scene_export.glb');
+            this.saveArrayBuffer(result, "scene_export.glb");
+            console.log("✅ Export successful: scene_export.glb");
           } else {
             // Fallback for non-binary (e.g., .gltf JSON) if you change options
             const output = JSON.stringify(result, null, 2);
-            const blob = new Blob([output], { type: 'application/json' });
-            const link = document.createElement('a');
-            link.style.display = 'none';
+            const blob = new Blob([output], { type: "application/json" });
+            const link = document.createElement("a");
+            link.style.display = "none";
             document.body.appendChild(link);
             link.href = URL.createObjectURL(blob);
-            link.download = 'scene_export.gltf';
+            link.download = "scene_export.gltf";
             link.click();
             setTimeout(() => {
               URL.revokeObjectURL(link.href);
               document.body.removeChild(link);
             }, 100);
-            console.log('✅ Export successful: scene_export.gltf');
+            console.log("✅ Export successful: scene_export.gltf");
           }
         },
         options
@@ -128,9 +128,9 @@ export abstract class Base3DScene {
   }
 
   private saveArrayBuffer(buffer: ArrayBuffer, filename: string) {
-    const blob = new Blob([buffer], { type: 'application/octet-stream' });
-    const link = document.createElement('a');
-    link.style.display = 'none';
+    const blob = new Blob([buffer], { type: "application/octet-stream" });
+    const link = document.createElement("a");
+    link.style.display = "none";
     document.body.appendChild(link);
     link.href = URL.createObjectURL(blob);
     link.download = filename;
@@ -142,7 +142,7 @@ export abstract class Base3DScene {
       document.body.removeChild(link);
     }, 100);
   }
-  
+
   private saveScreenshot() {
     const canvas = this.renderer.domElement;
     const dataURL = canvas.toDataURL("image/png");
@@ -270,16 +270,8 @@ export abstract class Base3DScene {
     shape2: any,
     connectionColor?: number | undefined
   ) {
-    this.makeSlidersInteractionAux(
-      shape1,
-      shape2,
-      connectionColor
-    );
-    this.makeSlidersInteractionAux(
-      shape2,
-      shape1,
-      connectionColor
-    );
+    this.makeSlidersInteractionAux(shape1, shape2, connectionColor);
+    this.makeSlidersInteractionAux(shape2, shape1, connectionColor);
   }
 
   protected makeSlidersInteractionAux(
@@ -468,18 +460,44 @@ export abstract class Base3DScene {
             )
           );
         } else {
-          if (this.geometryManager.calculateProximityQuery(shape1Id, shape2Id)) {
+          if (
+            this.geometryManager.calculateProximityQuery(shape1Id, shape2Id)
+          ) {
             this.scene.remove(this.scene.getObjectByName(shape2Id));
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
-            this.scene.add(this.geometryManager.getGeometryMesh(shape1Id, shape1Color, "line"));
-            this.scene.add(this.geometryManager.getGeometryMesh(shape2Id, shape2Color, "line"));
+            this.scene.add(
+              this.geometryManager.getGeometryMesh(
+                shape1Id,
+                shape1Color,
+                "line"
+              )
+            );
+            this.scene.add(
+              this.geometryManager.getGeometryMesh(
+                shape2Id,
+                shape2Color,
+                "line"
+              )
+            );
           } else {
             this.scene.remove(this.scene.getObjectByName(shape2Id));
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
-            this.scene.add(this.geometryManager.getGeometryMesh(shape1Id, shape1Color, "mesh"));
-            this.scene.add(this.geometryManager.getGeometryMesh(shape2Id, shape2Color, "mesh"));
+            this.scene.add(
+              this.geometryManager.getGeometryMesh(
+                shape1Id,
+                shape1Color,
+                "mesh"
+              )
+            );
+            this.scene.add(
+              this.geometryManager.getGeometryMesh(
+                shape2Id,
+                shape2Color,
+                "mesh"
+              )
+            );
           }
         }
       });
@@ -550,18 +568,44 @@ export abstract class Base3DScene {
             )
           );
         } else {
-          if (this.geometryManager.calculateProximityQuery(shape1Id, shape2Id)) {
+          if (
+            this.geometryManager.calculateProximityQuery(shape1Id, shape2Id)
+          ) {
             this.scene.remove(this.scene.getObjectByName(shape2Id));
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
-            this.scene.add(this.geometryManager.getGeometryMesh(shape1Id, shape1Color, "line"));
-            this.scene.add(this.geometryManager.getGeometryMesh(shape2Id, shape2Color, "line"));
+            this.scene.add(
+              this.geometryManager.getGeometryMesh(
+                shape1Id,
+                shape1Color,
+                "line"
+              )
+            );
+            this.scene.add(
+              this.geometryManager.getGeometryMesh(
+                shape2Id,
+                shape2Color,
+                "line"
+              )
+            );
           } else {
             this.scene.remove(this.scene.getObjectByName(shape2Id));
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
-            this.scene.add(this.geometryManager.getGeometryMesh(shape1Id, shape1Color, "mesh"));
-            this.scene.add(this.geometryManager.getGeometryMesh(shape2Id, shape2Color, "mesh"));
+            this.scene.add(
+              this.geometryManager.getGeometryMesh(
+                shape1Id,
+                shape1Color,
+                "mesh"
+              )
+            );
+            this.scene.add(
+              this.geometryManager.getGeometryMesh(
+                shape2Id,
+                shape2Color,
+                "mesh"
+              )
+            );
           }
         }
       });
@@ -602,8 +646,11 @@ export abstract class Base3DScene {
     color: number
   ) {
     console.log(point1, point2);
-    const lineMaterial = new MeshLineMaterial({ color: color, lineWidth: 1.75});
-    const lineGeometry = new MeshLineGeometry()
+    const lineMaterial = new MeshLineMaterial({
+      color: color,
+      lineWidth: 1.75,
+    });
+    const lineGeometry = new MeshLineGeometry();
     lineGeometry.setPoints([
       new THREE.Vector3(
         parseFloat(point1.x.toFixed(3)),
@@ -618,7 +665,7 @@ export abstract class Base3DScene {
     ]);
 
     const line = new THREE.Mesh(lineGeometry, lineMaterial);
-    line.name = 'connection';
+    line.name = "connection";
     this.scene.add(line);
 
     return line.name;

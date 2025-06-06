@@ -1,6 +1,6 @@
 import { Ellipsoid3D } from "./shapes/3D/Ellipsoid3D";
 import { EllipsoidEllipsoidPQ } from "./proximity_queries/3D/EllipsoidEllipsoidPQ";
-import { Vector3 } from "../Calc/Util/Utils";
+import { Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener("DOMContentLoaded", () => {

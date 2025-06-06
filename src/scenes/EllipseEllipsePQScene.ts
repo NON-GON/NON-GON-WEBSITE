@@ -1,6 +1,6 @@
 import { Ellipse2D } from "./shapes/2D/Ellipse2D";
 import { EllipseEllipsePQ } from "./proximity_queries/2D/EllipseEllipsePQ";
-import { Vector2, Vector3 } from "../Calc/Util/Utils";
+import { Vector2, Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener("DOMContentLoaded", () => {

@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import { Colors } from "../colors";
-import { GeometryManager } from "../Geometries/GeometryManager";
-import { Vector2, Vector3 } from "../Calc/Util/Utils";
+import { GeometryManager } from "non-gon";
+import { Vector2, Vector3 } from "non-gon";
 import { ShapeGeometry } from "three";
 
 export abstract class Base2DScene {
-  protected geometryManager = new GeometryManager();
+  protected geometryManager = GeometryManager.getInstance();
   protected renderer: THREE.WebGLRenderer;
   protected scene: THREE.Scene;
   protected camera: THREE.PerspectiveCamera;

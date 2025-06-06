@@ -1,7 +1,7 @@
 import { Superellipse2D } from "./shapes/2D/Superellipse2D";
 import { LineSegment2D } from "./shapes/2D/LineSegment2D";
 import { SuperellipseLineSegmentSD } from "./shortest_distance/2D/SuperellipseLineSegmentSD";
-import { Vector2, Vector3 } from "../Calc/Util/Utils";
+import { Vector2, Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener("DOMContentLoaded", () => {

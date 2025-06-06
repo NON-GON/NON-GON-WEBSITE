@@ -1,7 +1,7 @@
 import { Base2DScene } from "../../Base2DScene";
 import { ConvexLine2D } from "../../shapes/2D/ConvexLine2D";
 import { LineSegment2D } from "../../shapes/2D/LineSegment2D";
-import { GeometryType2D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D } from "non-gon";
 
 export class ConvexLineLineSegmentSD extends Base2DScene {
   private convexLine: ConvexLine2D;

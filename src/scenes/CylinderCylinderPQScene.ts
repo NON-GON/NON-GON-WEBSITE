@@ -1,6 +1,6 @@
 import { Cylinder3D } from "./shapes/3D/Cylinder3D";
 import { CylinderCylinderPQ } from "./proximity_queries/3D/CylinderCylinderPQ";
-import { Vector3 } from "../Calc/Util/Utils";
+import { Vector3 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener("DOMContentLoaded", () => {

@@ -1,6 +1,6 @@
 import { Base2DScene } from "../../Base2DScene";
 import { Ellipse2D } from "../../shapes/2D/Ellipse2D";
-import { GeometryType2D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D } from "non-gon";
 
 export class EllipseEllipseSD extends Base2DScene {
   private ellipse1: Ellipse2D;

@@ -1,7 +1,7 @@
 import { Base3DScene } from "../../Base3DScene";
 import { Superellipsoid3D } from "../../shapes/3D/Superellipsoid3D";
 import { Plane3D } from "../../shapes/3D/Plane3D";
-import { GeometryType2D, GeometryType3D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D, GeometryType3D } from "non-gon";
 
 export class SuperellipsoidPlaneSD extends Base3DScene {
   private superellipsoid: Superellipsoid3D;

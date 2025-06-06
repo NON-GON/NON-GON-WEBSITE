@@ -1,7 +1,7 @@
 import { Base2DScene } from "../../Base2DScene";
 import { ConvexCircle2D } from "../../shapes/2D/ConvexCircle2D";
 import { Circle2D } from "../../shapes/2D/Circle2D";
-import { GeometryType2D } from "../../../Geometries/GeoTypes";
+import { GeometryType2D } from "non-gon";
 
 export class ConvexCircleCircleSD extends Base2DScene {
   private convexCircle: ConvexCircle2D;

@@ -1,5 +1,5 @@
 import { LineSegment2D } from "./shapes/2D/LineSegment2D";
-import { Vector2 } from "../Calc/Util/Utils";
+import { Vector2 } from "non-gon";
 import { Colors } from "../colors";
 
 window.addEventListener('DOMContentLoaded', () => {
