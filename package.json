@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://non-gon.github.io/NON-GON-WEBSITE/",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
