@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "meshline": "^3.3.1",
+    "non-gon": "^0.1.0",
     "three": "^0.174.0"
   }
 }
