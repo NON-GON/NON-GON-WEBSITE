@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";import{C as m}from"./Cylinder3D-4cv6u3hq.js";import{a as n,C}from"./index-CtOlyrrk.js";import"./Base3DScene-Dqi25TmD.js";window.addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("c"),o=new n(0,0,0),e=25,s=25,c=100,r=new n(90,0,0),i=100,a="Cylinder",d=C.SHAPE1_COLOR_3D;new m(t,o,e,s,c,r,i,a,d).startAnimation()});

@@ -1,1 +1,0 @@
-import"./modulepreload-polyfill-B5Qt9EMX.js";import{P as s}from"./Point3D-D9UmTajp.js";import{a as c,C as r}from"./index-D1NIF6BJ.js";import"./Base3DScene-CnN_KzWd.js";window.addEventListener("DOMContentLoaded",()=>{const o=document.getElementById("c"),t=new c(0,0,0),n="Point",e=r.SHAPE1_COLOR_3D;new s(o,t,n,e).startAnimation()});

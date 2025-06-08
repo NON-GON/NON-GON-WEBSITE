@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";import{E as i}from"./Ellipse2D-By0Q7lGL.js";import{V as d,a as m,C as l}from"./index-CtOlyrrk.js";import"./Base2DScene-DPBKex3w.js";window.addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("c"),o=new d(0,0),n=50,s=25,e=new m(0,0,0),c=100,r="Ellipse",a=l.SHAPE1_COLOR_2D;new i(t,o,n,s,e,c,r,a).startAnimation()});
