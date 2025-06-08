@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";import{L as i}from"./LineSegment2D-DVAeAUVS.js";import{V as n,C as a}from"./index-D1NIF6BJ.js";import"./Base2DScene-ETx5bN0u.js";window.addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("c"),e=new n(15,0),o=new n(-15,0),s=new n(0,0),c="Line Segment",r=a.SHAPE1_COLOR_2D;new i(t,e,o,s,c,r).startAnimation()});
