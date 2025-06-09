@@ -62,80 +62,6 @@ export abstract class Base2DScene {
     document.body.removeChild(link);
   }
 
-  private makeAxes() {
-    // Cartesian Axes
-    const halfGridSize = 100;
-    const xAxis = this.makeClippedAxis(
-      new THREE.Vector3(1, 0, 0),
-      halfGridSize,
-      Colors.RED
-    );
-    const xAxisNeg = this.makeClippedAxis(
-      new THREE.Vector3(-1, 0, 0),
-      halfGridSize,
-      Colors.RED
-    );
-    const yAxis = this.makeClippedAxis(
-      new THREE.Vector3(0, 1, 0),
-      halfGridSize,
-      Colors.BLUE
-    );
-    const yAxisNeg = this.makeClippedAxis(
-      new THREE.Vector3(0, -1, 0),
-      halfGridSize,
-      Colors.BLUE
-    );
-    this.scene.add(xAxis, xAxisNeg, yAxis, yAxisNeg);
-
-    // Axes Arrowheads
-    const arrowX = this.makeArrowCone(
-      new THREE.Vector3(1, 0, 0),
-      halfGridSize,
-      Colors.RED
-    );
-    const arrowY = this.makeArrowCone(
-      new THREE.Vector3(0, 1, 0),
-      halfGridSize,
-      Colors.BLUE
-    );
-    this.scene.add(arrowX, arrowY);
-  }
-
-  private makeClippedAxis(
-    dir: THREE.Vector3,
-    length: number,
-    color: number
-  ): THREE.Line {
-    const points = [
-      new THREE.Vector3(0, 0, 0),
-      dir.clone().multiplyScalar(length),
-    ];
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color, linewidth: 2 });
-    return new THREE.Line(geometry, material);
-  }
-
-  private makeArrowCone(dir: THREE.Vector3, length: number, color: number) {
-    const coneHeight = 4;
-    const coneRadius = 2;
-    const coneGeometry = new THREE.ConeGeometry(coneRadius, coneHeight, 16);
-    const coneMaterial = new THREE.MeshBasicMaterial({ color });
-    const cone = new THREE.Mesh(coneGeometry, coneMaterial);
-
-    coneGeometry.translate(0, -coneHeight / 2, 0);
-    const axis = new THREE.Vector3(0, 1, 0);
-    const quaternion = new THREE.Quaternion().setFromUnitVectors(
-      axis,
-      dir.clone().normalize()
-    );
-    cone.applyQuaternion(quaternion);
-
-    const tipPos = dir.clone().setLength(length);
-    cone.position.copy(tipPos);
-
-    return cone;
-  }
-
   protected makeSlidersSolo(
     shapeId: string,
     shapeColor: number,
@@ -223,12 +149,12 @@ export abstract class Base2DScene {
       [
         "Center X: ",
         shapeCenter.x,
-        (v) => this.geometryManager.changeCenterX(shapeId, v),
+        (v: number) => this.geometryManager.changeCenterX(shapeId, v),
       ],
       [
         "Center Y: ",
         shapeCenter.y,
-        (v) => this.geometryManager.changeCenterY(shapeId, v),
+        (v: number) => this.geometryManager.changeCenterY(shapeId, v),
       ],
     ];
 
@@ -245,7 +171,8 @@ export abstract class Base2DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shapeId));
+        const obj = this.scene.getObjectByName(shapeId);
+        if (obj) this.scene.remove(obj);
         newCenter(v);
         this.scene.add(
           this.geometryManager.getGeometryMesh(shapeId, shapeColor, "mesh")
@@ -269,15 +196,23 @@ export abstract class Base2DScene {
       [
         "Start X: ",
         shapeStart.x,
-        (v) => (shape.start = new Vector2(v, shapeStart.y)),
+        (v: number) => (shape.start = new Vector2(v, shapeStart.y)),
       ],
       [
         "Start Y: ",
         shapeStart.y,
-        (v) => (shape.start = new Vector2(shapeStart.x, v)),
+        (v: number) => (shape.start = new Vector2(shapeStart.x, v)),
       ],
-      ["End X: ", shapeEnd.x, (v) => (shape.end = new Vector2(v, shapeEnd.y))],
-      ["End Y: ", shapeEnd.y, (v) => (shape.end = new Vector2(shapeEnd.x, v))],
+      [
+        "End X: ",
+        shapeEnd.x,
+        (v: number) => (shape.end = new Vector2(v, shapeEnd.y)),
+      ],
+      [
+        "End Y: ",
+        shapeEnd.y,
+        (v: number) => (shape.end = new Vector2(shapeEnd.x, v)),
+      ],
     ];
 
     fields.forEach(([labelText, value, newCenter]) => {
@@ -293,7 +228,10 @@ export abstract class Base2DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shape.getId()));
+        const obj = this.scene.getObjectByName(shape);
+        if (obj) {
+          this.scene.remove(obj);
+        }
         newCenter(v);
         this.scene.add(
           this.geometryManager.getGeometryMesh(
@@ -320,7 +258,7 @@ export abstract class Base2DScene {
       [
         "Rotation: ",
         shapeRotation.z,
-        (v) => this.geometryManager.changeRotationZ(shapeId, v),
+        (v: number) => this.geometryManager.changeRotationZ(shapeId, v),
       ],
     ];
 
@@ -337,7 +275,10 @@ export abstract class Base2DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shapeId));
+        const obj = this.scene.getObjectByName(shapeId);
+        if (obj) {
+          this.scene.remove(obj);
+        }
         newRotation(v);
         this.scene.add(
           this.geometryManager.getGeometryMesh(shapeId, shapeColor, "mesh")
@@ -366,12 +307,12 @@ export abstract class Base2DScene {
       [
         "Center X: ",
         shapeCenter.x,
-        (v) => this.geometryManager.changeCenterX(shape1Id, v),
+        (v: number) => this.geometryManager.changeCenterX(shape1Id, v),
       ],
       [
         "Center Y: ",
         shapeCenter.y,
-        (v) => this.geometryManager.changeCenterY(shape1Id, v),
+        (v: number) => this.geometryManager.changeCenterY(shape1Id, v),
       ],
     ];
 
@@ -388,7 +329,10 @@ export abstract class Base2DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shape1Id));
+        const obj = this.scene.getObjectByName(shape1Id);
+        if (obj) {
+          this.scene.remove(obj);
+        }
         newCenter(v);
 
         if (connectionColor !== undefined) {
@@ -399,16 +343,20 @@ export abstract class Base2DScene {
             shape1Id,
             shape2Id
           );
-          this.scene.remove(
-            this.scene.getObjectByName(
-              this.drawShortestDistance(points[0], points[1], connectionColor)
-            )
+          const connectionObj = this.scene.getObjectByName(
+            this.drawShortestDistance(points[0], points[1], connectionColor)
           );
+          if (connectionObj) {
+            this.scene.remove(connectionObj);
+          }
         } else {
           if (
             this.geometryManager.calculateProximityQuery(shape1Id, shape2Id)
           ) {
-            this.scene.remove(this.scene.getObjectByName(shape2Id));
+            const obj = this.scene.getObjectByName(shape2Id);
+            if (obj) {
+              this.scene.remove(obj);
+            }
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
             this.scene.add(
@@ -426,7 +374,10 @@ export abstract class Base2DScene {
               )
             );
           } else {
-            this.scene.remove(this.scene.getObjectByName(shape2Id));
+            const obj = this.scene.getObjectByName(shape2Id);
+            if (obj) {
+              this.scene.remove(obj);
+            }
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
             this.scene.add(
@@ -469,7 +420,7 @@ export abstract class Base2DScene {
       [
         "Rotation Z: ",
         shapeRotation.z,
-        (v) => this.geometryManager.changeRotationZ(shape1Id, v),
+        (v: number) => this.geometryManager.changeRotationZ(shape1Id, v),
       ],
     ];
 
@@ -486,7 +437,10 @@ export abstract class Base2DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shape1Id));
+        const obj = this.scene.getObjectByName(shape1Id);
+        if (obj) {
+          this.scene.remove(obj);
+        }
         newRotation(v);
 
         if (connectionColor !== undefined) {
@@ -497,16 +451,20 @@ export abstract class Base2DScene {
             shape1Id,
             shape2Id
           );
-          this.scene.remove(
-            this.scene.getObjectByName(
-              this.drawShortestDistance(points[0], points[1], connectionColor)
-            )
+          const obj = this.scene.getObjectByName(
+            this.drawShortestDistance(points[0], points[1], connectionColor)
           );
+          if (obj) {
+            this.scene.remove(obj);
+          }
         } else {
           if (
             this.geometryManager.calculateProximityQuery(shape1Id, shape2Id)
           ) {
-            this.scene.remove(this.scene.getObjectByName(shape2Id));
+            const obj = this.scene.getObjectByName(shape2Id);
+            if (obj) {
+              this.scene.remove(obj);
+            }
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
             this.scene.add(
@@ -524,7 +482,10 @@ export abstract class Base2DScene {
               )
             );
           } else {
-            this.scene.remove(this.scene.getObjectByName(shape2Id));
+            const obj = this.scene.getObjectByName(shape2Id);
+            if (obj) {
+              this.scene.remove(obj);
+            }
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
             this.scene.add(

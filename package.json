@@ -5,24 +5,26 @@
   "type": "module",
   "homepage": "https://non-gon.github.io/NON-GON-WEBSITE/",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
     "dev": "vite",
     "build": "vite build",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "postbuild": "cpx \"src/*.css\" dist/"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
+    "@types/three": "^0.177.0",
+    "cpx": "^1.5.0",
     "gh-pages": "^6.3.0",
+    "three": "^0.177.0",
     "ts-jest": "^29.2.6",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   },
   "dependencies": {
     "meshline": "^3.3.1",
-    "non-gon": "^0.1.0",
-    "three": "^0.174.0"
+    "non-gon": "^0.1.0"
   }
 }

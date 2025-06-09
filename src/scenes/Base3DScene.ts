@@ -3,7 +3,6 @@ import { Colors } from "../colors";
 import { GeometryManager } from "non-gon";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Vector2, Vector3 } from "non-gon";
-import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 
 export abstract class Base3DScene {
@@ -80,67 +79,8 @@ export abstract class Base3DScene {
       }
     });
 
-    const exporter = new GLTFExporter();
-
-    window.addEventListener("keydown", (event) => {
-      // Use 'e' key (case-insensitive) to trigger export
-      if (event.key.toLowerCase() !== "e") return;
-      event.preventDefault();
-
-      // Options for high-quality .glb
-      const options = {
-        binary: true, // Export as .glb
-        embedImages: true, // Embed textures into the .glb
-        maxTextureSize: Infinity, // Preserve full-resolution textures
-        // You can add more options here: trs, onlyVisible, truncateDrawRange, etc.
-      };
-
-      exporter.parse(
-        this.scene,
-        (result) => {
-          // If binary is true, result is an ArrayBuffer representing the .glb
-          if (result instanceof ArrayBuffer) {
-            this.saveArrayBuffer(result, "scene_export.glb");
-            console.log("✅ Export successful: scene_export.glb");
-          } else {
-            // Fallback for non-binary (e.g., .gltf JSON) if you change options
-            const output = JSON.stringify(result, null, 2);
-            const blob = new Blob([output], { type: "application/json" });
-            const link = document.createElement("a");
-            link.style.display = "none";
-            document.body.appendChild(link);
-            link.href = URL.createObjectURL(blob);
-            link.download = "scene_export.gltf";
-            link.click();
-            setTimeout(() => {
-              URL.revokeObjectURL(link.href);
-              document.body.removeChild(link);
-            }, 100);
-            console.log("✅ Export successful: scene_export.gltf");
-          }
-        },
-        options
-      );
-    });
-
     // Resize Handler
     window.addEventListener("resize", this.onWindowResize.bind(this));
-  }
-
-  private saveArrayBuffer(buffer: ArrayBuffer, filename: string) {
-    const blob = new Blob([buffer], { type: "application/octet-stream" });
-    const link = document.createElement("a");
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-
-    // Clean up
-    setTimeout(() => {
-      URL.revokeObjectURL(link.href);
-      document.body.removeChild(link);
-    }, 100);
   }
 
   private saveScreenshot() {
@@ -155,114 +95,16 @@ export abstract class Base3DScene {
     document.body.removeChild(link);
   }
 
-  private makeGridAndAxes() {
-    // Bounding Grid
-    const gridSize = 200;
-    //const gridGeometry = new BoxLineGeometry(gridSize, gridSize, gridSize);
-    //const gridMaterial = new THREE.LineBasicMaterial({color: Colors.WHITE, transparent: true, opacity: 0.05});
-    //const grid = new THREE.LineSegments(gridGeometry, gridMaterial);
-    //this.scene.add(grid);
-
-    // Cartesian Axes
-    const halfGridSize = gridSize / 2;
-    const xAxis = this.makeClippedAxis(
-      new THREE.Vector3(1, 0, 0),
-      halfGridSize,
-      Colors.RED
-    );
-    const xAxisNeg = this.makeClippedAxis(
-      new THREE.Vector3(-1, 0, 0),
-      halfGridSize,
-      Colors.RED
-    );
-    const yAxis = this.makeClippedAxis(
-      new THREE.Vector3(0, 1, 0),
-      halfGridSize,
-      Colors.BLUE
-    );
-    const yAxisNeg = this.makeClippedAxis(
-      new THREE.Vector3(0, -1, 0),
-      halfGridSize,
-      Colors.BLUE
-    );
-    const zAxis = this.makeClippedAxis(
-      new THREE.Vector3(0, 0, 1),
-      halfGridSize,
-      Colors.GREEN
-    );
-    const zAxisNeg = this.makeClippedAxis(
-      new THREE.Vector3(0, 0, -1),
-      halfGridSize,
-      Colors.GREEN
-    );
-    this.scene.add(xAxis, xAxisNeg, yAxis, yAxisNeg, zAxis, zAxisNeg);
-
-    // Axes Arrowheads
-    const arrowX = this.makeArrowCone(
-      new THREE.Vector3(1, 0, 0),
-      halfGridSize,
-      Colors.RED
-    );
-    const arrowY = this.makeArrowCone(
-      new THREE.Vector3(0, 1, 0),
-      halfGridSize,
-      Colors.BLUE
-    );
-    const arrowZ = this.makeArrowCone(
-      new THREE.Vector3(0, 0, 1),
-      halfGridSize,
-      Colors.GREEN
-    );
-    this.scene.add(arrowX, arrowY, arrowZ);
-  }
-
-  private makeClippedAxis(
-    dir: THREE.Vector3,
-    length: number,
-    color: number
-  ): THREE.Line {
-    const points = [
-      new THREE.Vector3(0, 0, 0),
-      dir.clone().multiplyScalar(length),
-    ];
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color, linewidth: 2 });
-    return new THREE.Line(geometry, material);
-  }
-
-  private makeArrowCone(dir: THREE.Vector3, length: number, color: number) {
-    const coneHeight = 4;
-    const coneRadius = 2;
-    const coneGeometry = new THREE.ConeGeometry(coneRadius, coneHeight, 16);
-    const coneMaterial = new THREE.MeshBasicMaterial({ color });
-    const cone = new THREE.Mesh(coneGeometry, coneMaterial);
-
-    coneGeometry.translate(0, -coneHeight / 2, 0);
-    const axis = new THREE.Vector3(0, 1, 0);
-    const quaternion = new THREE.Quaternion().setFromUnitVectors(
-      axis,
-      dir.clone().normalize()
-    );
-    cone.applyQuaternion(quaternion);
-
-    const tipPos = dir.clone().setLength(length);
-    cone.position.copy(tipPos);
-
-    return cone;
-  }
-
-  protected makeSlidersSolo(
-    shapeId: string,
-    shapeColor: number,
-    shapeParams: any
-  ) {
+  protected makeSlidersSolo(shapeId: string, shapeColor: number, _: any) {
     const fieldSet = document.createElement("fieldset");
     const legend = document.createElement("legend");
     legend.textContent = shapeId;
     fieldSet.appendChild(legend);
     this.makeShapeCenterSliders(fieldSet, shapeId, shapeColor);
     this.makeShapeRotationSliders(fieldSet, shapeId, shapeColor);
-    this.sliders.appendChild(fieldSet);
+    if (this.sliders) {
+      this.sliders.appendChild(fieldSet);
+    }
   }
 
   protected makeSlidersInteraction(
@@ -296,8 +138,9 @@ export abstract class Base3DScene {
       shape2,
       connectionColor
     );
-
-    this.sliders.appendChild(fieldSet);
+    if (this.sliders) {
+      this.sliders.appendChild(fieldSet);
+    }
   }
 
   private makeShapeCenterSliders(
@@ -310,17 +153,17 @@ export abstract class Base3DScene {
       [
         "Center X: ",
         shapeCenter.x,
-        (v) => this.geometryManager.changeCenterX(shapeId, v),
+        (v: number) => this.geometryManager.changeCenterX(shapeId, v),
       ],
       [
         "Center Y: ",
         shapeCenter.y,
-        (v) => this.geometryManager.changeCenterY(shapeId, v),
+        (v: number) => this.geometryManager.changeCenterY(shapeId, v),
       ],
       [
         "Center Z: ",
         shapeCenter.z,
-        (v) => this.geometryManager.changeCenterZ(shapeId, v),
+        (v: number) => this.geometryManager.changeCenterZ(shapeId, v),
       ],
     ];
 
@@ -337,7 +180,8 @@ export abstract class Base3DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shapeId));
+        let obj = this.scene.getObjectByName(shapeId);
+        if (obj) this.scene.remove(obj);
         newCenter(v);
         this.scene.add(
           this.geometryManager.getGeometryMesh(shapeId, shapeColor, "mesh")
@@ -360,17 +204,17 @@ export abstract class Base3DScene {
       [
         "Rotation X: ",
         shapeRotation.x,
-        (v) => this.geometryManager.changeRotationX(shapeId, v),
+        (v: number) => this.geometryManager.changeRotationX(shapeId, v),
       ],
       [
         "Rotation Y: ",
         shapeRotation.y,
-        (v) => this.geometryManager.changeRotationY(shapeId, v),
+        (v: number) => this.geometryManager.changeRotationY(shapeId, v),
       ],
       [
         "Rotation Z: ",
         shapeRotation.z,
-        (v) => this.geometryManager.changeRotationZ(shapeId, v),
+        (v: number) => this.geometryManager.changeRotationZ(shapeId, v),
       ],
     ];
 
@@ -387,7 +231,9 @@ export abstract class Base3DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shapeId));
+        let obj = this.scene.getObjectByName(shapeId);
+        if (obj) this.scene.remove(obj);
+
         newRotation(v);
         this.scene.add(
           this.geometryManager.getGeometryMesh(shapeId, shapeColor, "mesh")
@@ -416,17 +262,17 @@ export abstract class Base3DScene {
       [
         "Center X: ",
         shapeCenter.x,
-        (v) => this.geometryManager.changeCenterX(shape1Id, v),
+        (v: number) => this.geometryManager.changeCenterX(shape1Id, v),
       ],
       [
         "Center Y: ",
         shapeCenter.y,
-        (v) => this.geometryManager.changeCenterY(shape1Id, v),
+        (v: number) => this.geometryManager.changeCenterY(shape1Id, v),
       ],
       [
         "Center Z: ",
         shapeCenter.z,
-        (v) => this.geometryManager.changeCenterZ(shape1Id, v),
+        (v: number) => this.geometryManager.changeCenterZ(shape1Id, v),
       ],
     ];
 
@@ -443,7 +289,8 @@ export abstract class Base3DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shape1Id));
+        let obj = this.scene.getObjectByName(shape1Id);
+        if (obj) this.scene.remove(obj);
         newCenter(v);
 
         if (connectionColor !== undefined) {
@@ -454,16 +301,16 @@ export abstract class Base3DScene {
             shape1Id,
             shape2Id
           );
-          this.scene.remove(
-            this.scene.getObjectByName(
-              this.drawShortestDistance(points[0], points[1], connectionColor)
-            )
+          let obj = this.scene.getObjectByName(
+            this.drawShortestDistance(points[0], points[1], connectionColor)
           );
+          if (obj) this.scene.remove(obj);
         } else {
           if (
             this.geometryManager.calculateProximityQuery(shape1Id, shape2Id)
           ) {
-            this.scene.remove(this.scene.getObjectByName(shape2Id));
+            const obj = this.scene.getObjectByName(shape2Id);
+            if (obj) this.scene.remove(obj);
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
             this.scene.add(
@@ -481,7 +328,10 @@ export abstract class Base3DScene {
               )
             );
           } else {
-            this.scene.remove(this.scene.getObjectByName(shape2Id));
+            const obj = this.scene.getObjectByName(shape2Id);
+            if (obj) {
+              this.scene.remove(obj);
+            }
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
             this.scene.add(
@@ -524,17 +374,17 @@ export abstract class Base3DScene {
       [
         "Rotation X: ",
         shapeRotation.x,
-        (v) => this.geometryManager.changeRotationX(shape1Id, v),
+        (v: number) => this.geometryManager.changeRotationX(shape1Id, v),
       ],
       [
         "Rotation Y: ",
         shapeRotation.y,
-        (v) => this.geometryManager.changeRotationY(shape1Id, v),
+        (v: number) => this.geometryManager.changeRotationY(shape1Id, v),
       ],
       [
         "Rotation Z: ",
         shapeRotation.z,
-        (v) => this.geometryManager.changeRotationZ(shape1Id, v),
+        (v: number) => this.geometryManager.changeRotationZ(shape1Id, v),
       ],
     ];
 
@@ -551,7 +401,8 @@ export abstract class Base3DScene {
 
       slider.addEventListener("input", () => {
         const v = parseFloat(slider.value);
-        this.scene.remove(this.scene.getObjectByName(shape1Id));
+        let obj = this.scene.getObjectByName(shape1Id);
+        if (obj) this.scene.remove(obj);
         newRotation(v);
 
         if (connectionColor !== undefined) {
@@ -562,16 +413,16 @@ export abstract class Base3DScene {
             shape1Id,
             shape2Id
           );
-          this.scene.remove(
-            this.scene.getObjectByName(
-              this.drawShortestDistance(points[0], points[1], connectionColor)
-            )
+          let obj = this.scene.getObjectByName(
+            this.drawShortestDistance(points[0], points[1], connectionColor)
           );
+          if (obj) this.scene.remove(obj);
         } else {
           if (
             this.geometryManager.calculateProximityQuery(shape1Id, shape2Id)
           ) {
-            this.scene.remove(this.scene.getObjectByName(shape2Id));
+            let obj = this.scene.getObjectByName(shape2Id);
+            if (obj) this.scene.remove(obj);
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
             this.scene.add(
@@ -589,7 +440,8 @@ export abstract class Base3DScene {
               )
             );
           } else {
-            this.scene.remove(this.scene.getObjectByName(shape2Id));
+            let obj = this.scene.getObjectByName(shape2Id);
+            if (obj) this.scene.remove(obj);
             this.geometryManager.deletePreviousGeometry(shape2Id);
 
             this.scene.add(
@@ -649,6 +501,10 @@ export abstract class Base3DScene {
     const lineMaterial = new MeshLineMaterial({
       color: color,
       lineWidth: 1.75,
+      resolution: new THREE.Vector2(
+        this.renderer.domElement.width,
+        this.renderer.domElement.height
+      ),
     });
     const lineGeometry = new MeshLineGeometry();
     lineGeometry.setPoints([
