@@ -162,24 +162,53 @@ export abstract class Base2DScene {
       const label = document.createElement("label");
       label.textContent = labelText;
 
+      const container = document.createElement("div");
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.gap = "10px";
+
       const slider = document.createElement("input");
       slider.type = "range";
       slider.min = "-100";
       slider.max = "100";
       slider.step = "0.01";
       slider.value = value.toString();
+      slider.style.flex = "1";
 
-      slider.addEventListener("input", () => {
-        const v = parseFloat(slider.value);
+      const numberInput = document.createElement("input");
+      numberInput.type = "number";
+      numberInput.min = "-100";
+      numberInput.max = "100";
+      numberInput.step = "0.01";
+      numberInput.value = value.toString();
+      numberInput.style.width = "80px";
+
+      const updateValue = (v: number) => {
         const obj = this.scene.getObjectByName(shapeId);
         if (obj) this.scene.remove(obj);
         newCenter(v);
         this.scene.add(
           this.geometryManager.getGeometryMesh(shapeId, shapeColor, "mesh")
         );
+      };
+
+      slider.addEventListener("input", () => {
+        const v = parseFloat(slider.value);
+        numberInput.value = v.toString();
+        updateValue(v);
       });
 
-      label.appendChild(slider);
+      numberInput.addEventListener("input", () => {
+        const v = parseFloat(numberInput.value);
+        if (!isNaN(v)) {
+          slider.value = v.toString();
+          updateValue(v);
+        }
+      });
+
+      container.appendChild(slider);
+      container.appendChild(numberInput);
+      label.appendChild(container);
       fieldSet.appendChild(label);
       fieldSet.appendChild(document.createElement("br"));
     });
@@ -219,15 +248,28 @@ export abstract class Base2DScene {
       const label = document.createElement("label");
       label.textContent = labelText;
 
+      const container = document.createElement("div");
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.gap = "10px";
+
       const slider = document.createElement("input");
       slider.type = "range";
       slider.min = "-100";
       slider.max = "100";
       slider.step = "0.01";
       slider.value = value.toString();
+      slider.style.flex = "1";
 
-      slider.addEventListener("input", () => {
-        const v = parseFloat(slider.value);
+      const numberInput = document.createElement("input");
+      numberInput.type = "number";
+      numberInput.min = "-100";
+      numberInput.max = "100";
+      numberInput.step = "0.01";
+      numberInput.value = value.toString();
+      numberInput.style.width = "80px";
+
+      const updateValue = (v: number) => {
         const obj = this.scene.getObjectByName(shape);
         if (obj) {
           this.scene.remove(obj);
@@ -240,9 +282,25 @@ export abstract class Base2DScene {
             "line"
           )
         );
+      };
+
+      slider.addEventListener("input", () => {
+        const v = parseFloat(slider.value);
+        numberInput.value = v.toString();
+        updateValue(v);
       });
 
-      label.appendChild(slider);
+      numberInput.addEventListener("input", () => {
+        const v = parseFloat(numberInput.value);
+        if (!isNaN(v)) {
+          slider.value = v.toString();
+          updateValue(v);
+        }
+      });
+
+      container.appendChild(slider);
+      container.appendChild(numberInput);
+      label.appendChild(container);
       fieldSet.appendChild(label);
       fieldSet.appendChild(document.createElement("br"));
     });
@@ -266,15 +324,28 @@ export abstract class Base2DScene {
       const label = document.createElement("label");
       label.textContent = labelText;
 
+      const container = document.createElement("div");
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.gap = "10px";
+
       const slider = document.createElement("input");
       slider.type = "range";
       slider.min = "-360";
       slider.max = "360";
       slider.step = "0.01";
       slider.value = value.toString();
+      slider.style.flex = "1";
 
-      slider.addEventListener("input", () => {
-        const v = parseFloat(slider.value);
+      const numberInput = document.createElement("input");
+      numberInput.type = "number";
+      numberInput.min = "-360";
+      numberInput.max = "360";
+      numberInput.step = "0.01";
+      numberInput.value = value.toString();
+      numberInput.style.width = "80px";
+
+      const updateValue = (v: number) => {
         const obj = this.scene.getObjectByName(shapeId);
         if (obj) {
           this.scene.remove(obj);
@@ -283,9 +354,25 @@ export abstract class Base2DScene {
         this.scene.add(
           this.geometryManager.getGeometryMesh(shapeId, shapeColor, "mesh")
         );
+      };
+
+      slider.addEventListener("input", () => {
+        const v = parseFloat(slider.value);
+        numberInput.value = v.toString();
+        updateValue(v);
       });
 
-      label.appendChild(slider);
+      numberInput.addEventListener("input", () => {
+        const v = parseFloat(numberInput.value);
+        if (!isNaN(v)) {
+          slider.value = v.toString();
+          updateValue(v);
+        }
+      });
+
+      container.appendChild(slider);
+      container.appendChild(numberInput);
+      label.appendChild(container);
       fieldSet.appendChild(label);
       fieldSet.appendChild(document.createElement("br"));
     });
