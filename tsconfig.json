@@ -29,5 +29,5 @@
       "/*": ["public/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "docs", "docs"]
 }
