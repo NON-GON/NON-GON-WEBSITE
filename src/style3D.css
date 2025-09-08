@@ -17,6 +17,8 @@ canvas {
 }
 
 #sliders {
+  display: flex;
+  flex-direction: row;
   position: absolute;
   top: 50%;
   left: 0;

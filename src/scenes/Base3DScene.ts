@@ -612,33 +612,47 @@ export abstract class Base3DScene {
     point2: Vector3 | Vector2,
     color: number
   ) {
-    console.log(point1, point2);
-    const lineMaterial = new MeshLineMaterial({
-      color: color,
-      lineWidth: 1.75,
-      resolution: new THREE.Vector2(
-        this.renderer.domElement.width,
-        this.renderer.domElement.height
-      ),
-    });
-    const lineGeometry = new MeshLineGeometry();
-    lineGeometry.setPoints([
-      new THREE.Vector3(
-        parseFloat(point1.x.toFixed(3)),
-        parseFloat(point1.y.toFixed(3)),
-        "z" in point1 ? parseFloat((point1 as Vector3).z.toFixed(3)) : 0
-      ),
-      new THREE.Vector3(
-        parseFloat(point2.x.toFixed(3)),
-        parseFloat(point2.y.toFixed(3)),
-        "z" in point2 ? parseFloat((point2 as Vector3).z.toFixed(3)) : 0
-      ),
-    ]);
+    // Convert to THREE.Vector3
+    const start = new THREE.Vector3(
+      point1.x,
+      point1.y,
+      "z" in point1 ? (point1 as Vector3).z : 0
+    );
+    const end = new THREE.Vector3(
+      point2.x,
+      point2.y,
+      "z" in point2 ? (point2 as Vector3).z : 0
+    );
 
-    const line = new THREE.Mesh(lineGeometry, lineMaterial);
-    line.name = "connection";
-    this.scene.add(line);
+    // Calculate direction and length
+    const direction = new THREE.Vector3().subVectors(end, start);
+    const length = direction.length();
 
-    return line.name;
+    // Cylinder geometry: radius, height, segments
+    const radius = 0.8; // Adjust thickness as needed
+    const geometry = new THREE.CylinderGeometry(radius, radius, length, 16);
+
+    // Material
+    const material = new THREE.MeshBasicMaterial({ color: color });
+
+    // Cylinder mesh
+    const cylinder = new THREE.Mesh(geometry, material);
+
+    // Position: move to midpoint
+    const midpoint = new THREE.Vector3()
+      .addVectors(start, end)
+      .multiplyScalar(0.5);
+    cylinder.position.copy(midpoint);
+
+    // Align cylinder with direction
+    cylinder.quaternion.setFromUnitVectors(
+      new THREE.Vector3(0, 1, 0), // default up axis
+      direction.clone().normalize()
+    );
+
+    cylinder.name = "connection";
+    this.scene.add(cylinder);
+
+    return cylinder.name;
   }
 }

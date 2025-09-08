@@ -24,7 +24,6 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
-    "meshline": "^3.3.1",
-    "non-gon": "^0.1.0"
+    "meshline": "^3.3.1"
   }
 }

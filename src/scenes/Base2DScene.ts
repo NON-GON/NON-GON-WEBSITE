@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Colors } from "../colors";
-import { GeometryManager } from "non-gon";
+import { GeometryManager, GeometryType2D } from "non-gon";
 import { Vector2, Vector3 } from "non-gon";
 
 export abstract class Base2DScene {
@@ -187,8 +187,12 @@ export abstract class Base2DScene {
         const obj = this.scene.getObjectByName(shapeId);
         if (obj) this.scene.remove(obj);
         newCenter(v);
+        // Use 'line' for ConvexLine, 'mesh' for others
+        const geometryType = this.geometryManager.getGeometry(shapeId)?.type;
+        const meshType =
+          geometryType === GeometryType2D.ConvexLine ? "line" : "mesh";
         this.scene.add(
-          this.geometryManager.getGeometryMesh(shapeId, shapeColor, "mesh")
+          this.geometryManager.getGeometryMesh(shapeId, shapeColor, meshType)
         );
       };
 
@@ -270,11 +274,21 @@ export abstract class Base2DScene {
       numberInput.style.width = "80px";
 
       const updateValue = (v: number) => {
-        const obj = this.scene.getObjectByName(shape);
+        // Update start/end property
+        newCenter(v);
+
+        // Update geometry in GeometryManager
+        this.geometryManager.createGeometry(
+          GeometryType2D.Line,
+          shape.getId(),
+          shape.getParams()
+        );
+
+        // Remove old mesh and add new one
+        const obj = this.scene.getObjectByName(shape.getId());
         if (obj) {
           this.scene.remove(obj);
         }
-        newCenter(v);
         this.scene.add(
           this.geometryManager.getGeometryMesh(
             shape.getId(),
@@ -351,8 +365,12 @@ export abstract class Base2DScene {
           this.scene.remove(obj);
         }
         newRotation(v);
+        // Use 'line' for ConvexLine, 'mesh' for others
+        const geometryType = this.geometryManager.getGeometry(shapeId)?.type;
+        const meshType =
+          geometryType === GeometryType2D.ConvexLine ? "line" : "mesh";
         this.scene.add(
-          this.geometryManager.getGeometryMesh(shapeId, shapeColor, "mesh")
+          this.geometryManager.getGeometryMesh(shapeId, shapeColor, meshType)
         );
       };
 

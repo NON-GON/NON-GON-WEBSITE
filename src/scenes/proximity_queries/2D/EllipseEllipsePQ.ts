@@ -17,17 +17,58 @@ export class EllipseEllipsePQ extends Base2DScene {
   }
 
   protected buildScene(): void {
-    this.geometryManager.createGeometry(GeometryType2D.Ellipse, this.ellipse1.getId(), this.ellipse1.getParams());
-    this.geometryManager.createGeometry(GeometryType2D.Ellipse, this.ellipse2.getId(), this.ellipse2.getParams());
-    
-    if(this.geometryManager.calculateProximityQuery(this.ellipse1.getId(), this.ellipse2.getId())) {
-      this.scene.add(this.geometryManager.getGeometryMesh(this.ellipse1.getId(), this.ellipse1.getColor(), "line"));
-      this.scene.add(this.geometryManager.getGeometryMesh(this.ellipse2.getId(), this.ellipse2.getColor(), "line"));
+    this.geometryManager.createGeometry(
+      GeometryType2D.Ellipse,
+      this.ellipse1.getId(),
+      this.ellipse1.getParams()
+    );
+    this.geometryManager.createGeometry(
+      GeometryType2D.Ellipse,
+      this.ellipse2.getId(),
+      this.ellipse2.getParams()
+    );
+
+    if (
+      this.geometryManager.calculateProximityQuery(
+        this.ellipse1.getId(),
+        this.ellipse2.getId()
+      )
+    ) {
+      this.scene.add(
+        this.geometryManager.getGeometryMesh(
+          this.ellipse1.getId(),
+          this.ellipse1.getColor(),
+          "line"
+        )
+      );
+      this.scene.add(
+        this.geometryManager.getGeometryMesh(
+          this.ellipse2.getId(),
+          this.ellipse2.getColor(),
+          "line"
+        )
+      );
     } else {
-      this.scene.add(this.geometryManager.getGeometryMesh(this.ellipse1.getId(), this.ellipse1.getColor(), "mesh"));
-      this.scene.add(this.geometryManager.getGeometryMesh(this.ellipse2.getId(), this.ellipse2.getColor(), "mesh"));
+      this.scene.add(
+        this.geometryManager.getGeometryMesh(
+          this.ellipse1.getId(),
+          this.ellipse1.getColor(),
+          "mesh"
+        )
+      );
+      this.scene.add(
+        this.geometryManager.getGeometryMesh(
+          this.ellipse2.getId(),
+          this.ellipse2.getColor(),
+          "mesh"
+        )
+      );
     }
 
-    this.makeSlidersInteraction(this.ellipse1, this.ellipse2);
+    // Don't know how this works
+    this.makeSlidersSolo(this.ellipse1.getId(), this.ellipse1.getColor(), null);
+    this.makeSlidersSolo(this.ellipse2.getId(), this.ellipse2.getColor(), null);
+    // But this doesn't
+    // this.makeSlidersInteraction( this.ellipse1, this.ellipse2, this.colorConnection);
   }
 }
