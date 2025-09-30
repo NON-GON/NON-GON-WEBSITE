@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";import"./Base2DScene-CUMVM7-s.js";import{C as a}from"./Circle2D-Dmij0JTw.js";import{V as i,a as m,C as d}from"./index-EJY55zMU.js";window.addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("c"),o=new i(0,0),n=50,e=new m(0,0,0),s=100,c="Circle",r=d.SHAPE1_COLOR_2D;new a(t,o,n,e,s,c,r).startAnimation()});
