@@ -1,1 +1,0 @@
-import"./modulepreload-polyfill-B5Qt9EMX.js";import"./Base3DScene-8WNrbrE-.js";import{P as m}from"./Plane3D-BOnNNv-5.js";import{a as t,C as d}from"./index-EJY55zMU.js";window.addEventListener("DOMContentLoaded",()=>{const n=document.getElementById("c"),o=new t(0,0,0),e=new t(0,0,90),s=50,c=100,a=50,r="Plane",i=d.SHAPE1_COLOR_3D;new m(n,o,e,s,c,a,r,i).startAnimation()});

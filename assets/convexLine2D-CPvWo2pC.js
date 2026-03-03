@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";import"./Base2DScene-CfbONX0C.js";import{C as r}from"./ConvexLine2D-CHP-p2yV.js";import{V as a,a as i,C as m}from"./index-BxdyDsR1.js";window.addEventListener("DOMContentLoaded",()=>{const n=document.getElementById("c"),o=new a(0,0),t=new i(0,0,0),e=100,s="Convex Line",c=m.SHAPE1_COLOR_2D;new r(n,o,t,e,s,c).startAnimation()});

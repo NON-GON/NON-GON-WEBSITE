@@ -1,1 +1,0 @@
-import"./modulepreload-polyfill-B5Qt9EMX.js";import"./Base2DScene-CUMVM7-s.js";import{P as s}from"./Point2D-Dm1MC9D9.js";import{V as c,C as r}from"./index-EJY55zMU.js";window.addEventListener("DOMContentLoaded",()=>{const o=document.getElementById("c"),t=new c(0,0),n="Point",e=r.SHAPE1_COLOR_2D;new s(o,t,n,e).startAnimation()});
